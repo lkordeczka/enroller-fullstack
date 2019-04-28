@@ -1,5 +1,6 @@
 <template>
   <form @submit.prevent="enter()">
+    <H2>Formularz {{ HeaderName }}</H2>
     <label>Login</label>
     <input type="text" v-model="user.login">
     <label>Hasło</label>
@@ -10,7 +11,7 @@
 
 <script>
     export default {
-        props: ["buttonLabel"],
+        props: ["buttonLabel", "h2Label"],
         data() {
             return {
                 user: {}
@@ -23,7 +24,10 @@
         },
         computed: {
             labelOfTheButton() {
-                return this.buttonLabel || 'Zaloguj się';
+                return this.buttonLabel || 'zaloguj się';
+            },
+            HeaderName() {
+                return this.h2Label || 'logowania';
             }
         }
     };
