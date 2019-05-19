@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="addNewMeeting()" v-if="adding">
+    <form @submit.prevent="addNewMeeting($event)" v-if="adding">
       <h3>Dodaj nowe spotkanie</h3>
       <label>Nazwa</label>
       <input type="text" v-model="newMeeting.name">
@@ -23,9 +23,10 @@
             };
         },
         methods: {
-            addNewMeeting() {
+            addNewMeeting(meeting) {
                 this.error = false;
                 if (this.newMeeting.name) {
+                    this.$http.post('meetings', {"title": this.newMeeting.name, 'description': this.newMeeting.description})
                     this.$emit('added', this.newMeeting);
                     this.newMeeting = {participants: []};
                     this.adding = false;
