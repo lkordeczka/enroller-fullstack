@@ -1,5 +1,6 @@
 <template>
-  <table v-if="meetings.length > 0">
+  <!-- <table v-if="printList().length > 0"> -->
+  <table>
     <thead>
     <tr>
       <th>Nazwa spotkania</th>
@@ -10,7 +11,7 @@
     </thead>
     <tbody>
     <tr v-for="meeting in meetings" :key="meeting.name">
-      <td>{{ meeting.name }}</td>
+      <td>{{ meeting.title }}</td>
       <td>{{ meeting.description }}</td>
       <td>
         <ul v-if="meeting.participants">
@@ -20,14 +21,15 @@
         </ul>
       </td>
       <td style="text-align: right; min-width: 400px">
-        <button v-if="meeting.participants.indexOf(username) < 0" class="button-outline"
+        
+        <!-- <button v-if="meeting.participants.indexOf(username) < 0" class="button-outline"
                 @click="$emit('attend', meeting)">
           Zapisz się
         </button>
         <button v-else class="button-outline" @click="$emit('unattend', meeting)">Wypisz się</button>
         <button v-if="meeting.participants.length === 0" class="button" @click="$emit('delete', meeting)">
           Usuń puste spotkanie
-        </button>
+        </button> -->
       </td>
     </tr>
     </tbody>
@@ -36,6 +38,28 @@
 
 <script>
     export default {
-        props: ['meetings', 'username']
+        props: ['username'],
+        data() {
+          return {
+            meetings: []
+          }
+        },
+        methods: {
+          printList() {
+          const username = localStorage.getItem('username');
+            const token = localStorage.getItem('token');
+            if (username && token) {
+                // if token expired or user has been deleted - logout!
+                this.$http.get(`meetings`).then((meetings) => {
+                    console.log(this.meetings)
+                    this.meetings = meetings.data
+                    })
+                  .catch(() => this.logout());
+            }
+          }
+        },
+        mounted() {
+          this.printList()
+        }
     }
 </script>

@@ -32,11 +32,6 @@ public class MeetingRestController {
     
 	 @RequestMapping(value = "", method = RequestMethod.POST)
 	 public ResponseEntity<?> registerMeetings(@RequestBody Meeting meeting){
-		 System.out.println(meeting.getId());
-		 System.out.println(meeting.getDate());
-		 System.out.println(meeting.getDescription());
-		 System.out.println(meeting.getTitle());
-		 System.out.println("Dodałem spotkanie do bazyd");
 		 meetingService.add(meeting);
 		 return new ResponseEntity<Meeting>(meeting, HttpStatus.CREATED);
 	 }

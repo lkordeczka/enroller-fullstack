@@ -28,4 +28,8 @@ public class MeetingService {
 		transaction.commit();		
 	}
 
+	public Meeting getByID(Long id) {
+		return (Meeting) connector.getSession().get(Meeting.class, id);
+	}
+	
 }
